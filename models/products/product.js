@@ -11,7 +11,8 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     description:{
-        type: Sequelize.TEXT,
+        // type: Sequelize.TEXT,
+        type:String,
     },
     category:{
         type:String,

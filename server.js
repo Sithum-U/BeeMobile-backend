@@ -2,15 +2,19 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+// const sequelize = require("sequelize");
 const productRoute = require("./routes/products/productRoute");
 
 require("dotenv").config();
 const app = express();
 
 const port = process.env.PORT || 8000;
-
-app.use(express.json());
-app.use(express.urlencoded());
+// module.exports = sequelize;
+// app.use(sequelize());
+// app.use(express.urlencoded());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));

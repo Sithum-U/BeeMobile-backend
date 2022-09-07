@@ -46,4 +46,55 @@ router.get("/:id", async(req,res)=>{
          console.log(e)
      }
 })
+
+//update record
+router.put("/:id", async(req,res)=>{
+    Product.findByIdAndUpdate(req.params.id)
+      .then((product) => {
+        req.body.productCode ? (product.productCode = req.body.productCode) : null,
+          req.body.productName
+            ? (product.productName = req.body.productName)
+            : null,
+          req.body.description ? (product.description = req.body.description) : null,
+          req.body.category ? (product.category = req.body.category) : null,
+          req.body.price ? ((product.price = req.body.price)) : null;
+          req.body.image ? ((product.image = req.body.image)) : null;
+          product
+          .save()
+          .then((product) => res.json({
+                            status:"SUCCESS",
+                            message:"Record is updated successfully",
+                            data:product
+                        }))
+          .catch((err) => res.json(err));
+      })
+      .catch((err) => res.json({
+                        status:"FAILED",
+                        message:"Record is not updated successfully"
+                    }));
+  });
+
+//delete record
+router.delete("/:id", async(req,res)=>{
+    try{
+        const _id = req.params.id;
+        const result = await Product.findByIdAndDelete(_id);
+        if(!result){
+            res.json({
+                status:"FAILED",
+                message:"Record is not Deleted successfully"
+            })
+        }
+        else{
+            res.json({
+                status:"SUCCESS",
+                message:"Record is Deleted successfully",
+                data:result
+            })
+        }
+     }
+     catch(e){
+         console.log(e)
+     }
+})
 module.exports = router
