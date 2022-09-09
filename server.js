@@ -2,16 +2,28 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+// const sequelize = require("sequelize");
+const productRoute = require("./routes/products/productRoute");
+
 
 const uuid = require("uuid");
+
 
 require("dotenv").config();
 const app = express();
 
-const port = process.env.PORT || 8000;
+
+// module.exports = sequelize;
+// app.use(sequelize());
+// app.use(express.urlencoded());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 
 app.use(express.json());
 app.use(express.urlencoded());
+
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
@@ -25,6 +37,10 @@ mongoose
     console.log("Database Connected Successfully..");
   });
 
-app.listen(5000, () => {
-  console.log(`Server started on port 5000`);
+
+app.use('/product',productRoute);
+
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });
+
