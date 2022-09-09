@@ -11,8 +11,8 @@ const paymentSchema = new mongoose.Schema({
     required: true,
   },
   expDate: {
-    type: Date,
-    required: true,
+    type: String,
+    default: new Date(),
   },
   cvc: {
     // type: Sequelize.TEXT,
@@ -24,11 +24,11 @@ const paymentSchema = new mongoose.Schema({
     required: true,
   },
   region: {
-    type: Number,
+    type: String,
     required: true,
   },
   zip: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
