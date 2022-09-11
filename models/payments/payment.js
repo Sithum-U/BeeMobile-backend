@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
+// const validator = require("validator");
 
 const paymentSchema = new mongoose.Schema({
   email: {
@@ -7,7 +7,7 @@ const paymentSchema = new mongoose.Schema({
     required: true,
   },
   cardInformation: {
-    type: String,
+    type: Number,
     required: true,
   },
   expDate: {
