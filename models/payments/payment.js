@@ -7,7 +7,7 @@ const paymentSchema = new mongoose.Schema({
     required: true,
   },
   cardInformation: {
-    type: String,
+    type: Number,
     required: true,
   },
   expDate: {

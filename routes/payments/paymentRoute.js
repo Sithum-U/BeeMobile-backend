@@ -36,7 +36,7 @@ router.put("/updatePayment/:id", (req, res) => {
       console.log(payment);
       req.body.email ? (payment.email = req.body.email) : null,
         req.body.cardInformation
-          ? (payment.cardInformation = req.body.cardInformation)
+          ? (payment.cardInformation = Number(req.body.cardInformation))
           : null,
         req.body.expDate ? (payment.expDate = Date(req.body.expDate)) : null;
       req.body.cvc != 0 ? (payment.cvc = Number(req.body.cvc)) : null;

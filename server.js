@@ -5,21 +5,18 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 // const sequelize = require("sequelize");
 const productRoute = require("./routes/products/productRoute");
-
+const paymentRoute = require("./routes/payments/paymentRoute");
 
 const uuid = require("uuid");
-
-
+const port = process.env.PORT || 8000;
 require("dotenv").config();
 const app = express();
-
 
 // module.exports = sequelize;
 // app.use(sequelize());
 // app.use(express.urlencoded());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 
 app.use(express.json());
 app.use(express.urlencoded());
@@ -37,10 +34,9 @@ mongoose
     console.log("Database Connected Successfully..");
   });
 
-
-app.use('/product',productRoute);
+app.use("/product", productRoute);
+app.use("/payment", paymentRoute);
 
 app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
+  console.log(`server is running on port ${port}`);
 });
-
