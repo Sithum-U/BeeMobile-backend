@@ -1,9 +1,22 @@
 const express = require("express");
 const Product = require("../../models/products/product") ;
+const multer = require("multer");
+const cloudinary = require("../products/cloudinary.js");
 
 const router = express.Router();
 
-router.post("/", async(req,res)=>{
+const storage = multer.diskStorage({
+    destination: (req,file,callback) => {
+        callback(null, "./public/uploads/");
+    },
+    filename: (req, file, callback) => {
+        callback(null, file.originalname);
+    }
+})
+
+const upload = multer({storage: storage});
+
+router.post("/", upload.single("image"), async(req,res)=>{
     //console.log(req.body)
     const data = new Product(req.body)
     const result = await data.save()
@@ -20,6 +33,29 @@ router.post("/", async(req,res)=>{
             message: "Product Added Successfully....",
             data:result
         })
+    }
+})
+
+//get records
+router.get("/", async(req,res)=>{
+    try{
+       const result = await Product.find()
+       if(!result){
+           res.json({
+               status:"FAILED",
+               message:"Not Found record"
+           })
+       }
+       else{
+           res.json({
+               status:"SUCCESS",
+               message:"Result Found",
+               data:result
+           })
+       }
+    }
+    catch(e){
+        console.log(e)
     }
 })
 
