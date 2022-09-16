@@ -1,5 +1,6 @@
+//payment model schema created
+
 const mongoose = require("mongoose");
-const validator = require("validator");
 
 const paymentSchema = new mongoose.Schema({
   email: {
