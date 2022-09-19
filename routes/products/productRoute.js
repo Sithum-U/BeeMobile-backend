@@ -1,100 +1,110 @@
 const express = require("express");
-const Product = require("../../models/products/product") ;
+const Product = require("../../models/products/product");
 
 const router = express.Router();
 
-router.post("/", async(req,res)=>{
-    //console.log(req.body)
-    const data = new Product(req.body)
-    const result = await data.save()
+router.post("/", async (req, res) => {
+  //console.log(req.body)
+  const data = new Product(req.body);
+  const result = await data.save();
 
-    if(!result){
-        res.json({
-            status: "FAILED",
-            message: "Product is not Added!"
-        })
-    }
-    else{
-        res.json({
-            status: "SUCCESS",
-            message: "Product Added Successfully....",
-            data:result
-        })
-    }
-})
+  if (!result) {
+    res.json({
+      status: "FAILED",
+      message: "Product is not Added!",
+    });
+  } else {
+    res.json({
+      status: "SUCCESS",
+      message: "Product Added Successfully....",
+      data: result,
+    });
+  }
+});
+
+//get all records
+router.get("/", (req, res) => {
+  Product.find((err, docs) => {
+    res.json(docs);
+  });
+});
 
 //get single record
-router.get("/:id", async(req,res)=>{
-    try{
-        const _id = req.params.id;
-        const result = await Product.findById(_id);
-        if(!result){
-            res.json({
-                status:"FAILED",
-                message:"Not Found record"
-            })
-        }
-        else{
-            res.json({
-                status:"SUCCESS",
-                message:"One Result Found",
-                data:result
-            })
-        }
-     }
-     catch(e){
-         console.log(e)
-     }
-})
+router.get("/:id", async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const result = await Product.findById(_id);
+    if (!result) {
+      res.json({
+        status: "FAILED",
+        message: "Not Found record",
+      });
+    } else {
+      res.json({
+        status: "SUCCESS",
+        message: "One Result Found",
+        data: result,
+      });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 //update record
-router.put("/:id", async(req,res)=>{
-    Product.findByIdAndUpdate(req.params.id)
-      .then((product) => {
-        req.body.productCode ? (product.productCode = req.body.productCode) : null,
-          req.body.productName
-            ? (product.productName = req.body.productName)
-            : null,
-          req.body.description ? (product.description = req.body.description) : null,
-          req.body.category ? (product.category = req.body.category) : null,
-          req.body.price ? ((product.price = req.body.price)) : null;
-          req.body.image ? ((product.image = req.body.image)) : null;
-          product
-          .save()
-          .then((product) => res.json({
-                            status:"SUCCESS",
-                            message:"Record is updated successfully",
-                            data:product
-                        }))
-          .catch((err) => res.json(err));
+router.put("/:id", async (req, res) => {
+  Product.findByIdAndUpdate(req.params.id)
+    .then((product) => {
+      req.body.productCode
+        ? (product.productCode = req.body.productCode)
+        : null,
+        req.body.productName
+          ? (product.productName = req.body.productName)
+          : null,
+        req.body.description
+          ? (product.description = req.body.description)
+          : null,
+        req.body.category ? (product.category = req.body.category) : null,
+        req.body.price ? (product.price = req.body.price) : null;
+      req.body.image ? (product.image = req.body.image) : null;
+      product
+        .save()
+        .then((product) =>
+          res.json({
+            status: "SUCCESS",
+            message: "Record is updated successfully",
+            data: product,
+          })
+        )
+        .catch((err) => res.json(err));
+    })
+    .catch((err) =>
+      res.json({
+        status: "FAILED",
+        message: "Record is not updated successfully",
       })
-      .catch((err) => res.json({
-                        status:"FAILED",
-                        message:"Record is not updated successfully"
-                    }));
-  });
+    );
+});
 
 //delete record
-router.delete("/:id", async(req,res)=>{
-    try{
-        const _id = req.params.id;
-        const result = await Product.findByIdAndDelete(_id);
-        if(!result){
-            res.json({
-                status:"FAILED",
-                message:"Record is not Deleted successfully"
-            })
-        }
-        else{
-            res.json({
-                status:"SUCCESS",
-                message:"Record is Deleted successfully",
-                data:result
-            })
-        }
-     }
-     catch(e){
-         console.log(e)
-     }
-})
-module.exports = router
+router.delete("/:id", async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const result = await Product.findByIdAndDelete(_id);
+    if (!result) {
+      res.json({
+        status: "FAILED",
+        message: "Record is not Deleted successfully",
+      });
+    } else {
+      res.json({
+        status: "SUCCESS",
+        message: "Record is Deleted successfully",
+        data: result,
+      });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+});
+module.exports = router;
