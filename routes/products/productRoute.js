@@ -1,7 +1,7 @@
 const express = require("express");
 const Product = require("../../models/products/product") ;
 const multer = require("multer");
-const cloudinary = require("../products/cloudinary.js");
+const cloudinary = require("../../models/products/cloudinary.js");
 
 const router = express.Router();
 
