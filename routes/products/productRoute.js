@@ -8,7 +8,7 @@ router.post("/", async (req, res) => {
   const data = new Product(req.body);
   const result = await data.save();
 const multer = require("multer");
-const cloudinary = require("../products/cloudinary.js");
+const cloudinary = require("../../models/products/cloudinary.js");
 
 const router = express.Router();
 

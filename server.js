@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 // const sequelize = require("sequelize");
 const productRoute = require("./routes/products/productRoute");
 const paymentRoute = require("./routes/payments/paymentRoute");
+const authRoute = require("./routes/users/auth");
+const usersRoute = require("./routes/users/users");
 
 const uuid = require("uuid");
 const port = process.env.PORT || 8000;
@@ -15,6 +17,8 @@ const app = express();
 // module.exports = sequelize;
 // app.use(sequelize());
 // app.use(express.urlencoded());
+
+//middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -36,7 +40,20 @@ mongoose
 
 app.use("/product", productRoute);
 app.use("/payment", paymentRoute);
+app.use("/auth", authRoute);
+app.use("/users", authRoute);
+
+app.use((err, req, res, next) => {
+  const errorStatus = err.status || 500;
+  const errorMesaage = err.message || "Something went wrong";
+  return res.status(errorStatus).json({
+      success: false,
+      status: errorStatus,
+      message: errorMesaage,
+      stack: err.stack,
+  });
+});
 
 app.listen(port, () => {
-  console.log(`server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
