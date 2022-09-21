@@ -1,75 +1,76 @@
 const express = require("express");
 const Product = require("../../models/products/product");
 const multer = require("multer");
-const cloudinary = require("../../models/products/cloudinary.js");
+// const cloudinary = require("../products/cloudinary.js");
 
 const router = express.Router();
 
-
-router.post("/", async (req, res) => {
-  //console.log(req.body)
-  const data = new Product(req.body);
-  const result = await data.save();
-
 const storage = multer.diskStorage({
-    destination: (req,file,callback) => {
-        callback(null, "./public/uploads/");
-    },
-    filename: (req, file, callback) => {
-        callback(null, file.originalname);
-    }
-})
-
-const upload = multer({storage: storage});
-
-router.post("/", upload.single("image"), async(req,res)=>{
-    //console.log(req.body)
-    const data = new Product(req.body)
-    const result = await data.save()
-
-
-  if (!result) {
-    res.json({
-      status: "FAILED",
-      message: "Product is not Added!",
-    });
-  } else {
-    res.json({
-      status: "SUCCESS",
-      message: "Product Added Successfully....",
-      data: result,
-    });
-  }
+  destination: (req, file, callback) => {
+    callback(null, "./public/uploads/");
+  },
+  filename: (req, file, callback) => {
+    callback(null, file.originalname);
+  },
 });
 
-//get all records
-router.get("/", (req, res) => {
-  Product.find((err, docs) => {
-    res.json(docs);
+const upload = multer({ storage: storage });
+
+// router.post("/", upload.single("image"), async(req,res)=>{
+//     //console.log(req.body)
+//     const data = new Product(req.body)
+//     const result = await data.save()
+
+//     if(!result){
+//         res.json({
+//             status: "FAILED",
+//             message: "Product is not Added!"
+//         })
+//     }
+//     else{
+//         res.json({
+//             status: "SUCCESS",
+//             message: "Product Added Successfully....",
+//             data:result
+//         })
+//     }
+// })
+
+router.post("/", upload.single("image"), (req, res) => {
+  const newArticle = new Articles({
+    productCode: req.body.productCode,
+    productName: req.body.productName,
+    description: req.body.description,
+    category: req.body.category,
+    price: req.body.price,
+    image: req.file.originalname,
   });
+
+  newArticle
+    .save()
+    .then(() => res.json("New Article Posted!"))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
 //get records
-router.get("/", async(req,res)=>{
-    try{
-       const result = await Product.find()
-       if(!result){
-           res.json({
-               status:"FAILED",
-               message:"Not Found record"
-           })
-       }
-       else{
-           res.json({
-               status:"SUCCESS",
-               message:"Result Found",
-               data:result
-           })
-       }
+router.get("/", async (req, res) => {
+  try {
+    const result = await Product.find();
+    if (!result) {
+      res.json({
+        status: "FAILED",
+        message: "Not Found record",
+      });
+    } else {
+      res.json({
+        status: "SUCCESS",
+        message: "Result Found",
+        data: result,
+      });
     }
-    catch(e){
-        console.log(e)
-    }
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 //get single record
@@ -150,5 +151,4 @@ router.delete("/:id", async (req, res) => {
     console.log(e);
   }
 });
-
 module.exports = router;
