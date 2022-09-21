@@ -1,16 +1,15 @@
 const express = require("express");
 const Product = require("../../models/products/product");
+const multer = require("multer");
+const cloudinary = require("../../models/products/cloudinary.js");
 
 const router = express.Router();
+
 
 router.post("/", async (req, res) => {
   //console.log(req.body)
   const data = new Product(req.body);
   const result = await data.save();
-const multer = require("multer");
-const cloudinary = require("../../models/products/cloudinary.js");
-
-const router = express.Router();
 
 const storage = multer.diskStorage({
     destination: (req,file,callback) => {
@@ -71,7 +70,7 @@ router.get("/", async(req,res)=>{
     catch(e){
         console.log(e)
     }
-})
+});
 
 //get single record
 router.get("/:id", async (req, res) => {
@@ -151,4 +150,5 @@ router.delete("/:id", async (req, res) => {
     console.log(e);
   }
 });
+
 module.exports = router;
