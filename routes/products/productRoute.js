@@ -2,6 +2,7 @@ const express = require("express");
 const Product = require("../../models/products/product");
 const multer = require("multer");
 const path = require("path");
+const { fstat } = require("fs");
 // const cloudinary = require("../products/cloudinary.js");
 
 const router = express.Router();
@@ -23,15 +24,6 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, callback) => {
     callback(null,true);
 }
-  destination: (req, file, callback) => {
-    callback(null, "./public/uploads/");
-  },
-  filename: (req, file, callback) => {
-    callback(null, file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
 
 // router.post("/", upload.single("image"), async(req,res)=>{
 //     //console.log(req.body)
@@ -47,7 +39,17 @@ let upload = multer({
 
 router.post("/",upload.single("image"), async(req,res)=>{
     //console.log(req.body)
-    const data = new Product(req.body)
+    const data = new Product({
+        productCode: req.body.productCode,
+        productName: req.body.productName,
+        description: req.body.description,
+        category: req.body.category,
+        price: req.body.price,
+        image: {
+            img: fstat.readFileSync("./public/uploads/", req.file.filename),
+            contentType: "image/png"
+        },
+    });
     const result = await data.save()
 
     if(!result){
@@ -65,11 +67,6 @@ router.post("/",upload.single("image"), async(req,res)=>{
     }
 })
 
-router.post("/image",upload.single("image"), (req,res)=>{
-    res.json({
-        message: "success"
-    })
-})
 
 router.post("/", upload.single("image"), (req, res) => {
   const newArticle = new Articles({
