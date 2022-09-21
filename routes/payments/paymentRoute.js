@@ -1,3 +1,4 @@
+//payment routes created
 const router = require("express").Router();
 const Payment = require("../../models/payments/payment");
 
