@@ -24,15 +24,6 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, callback) => {
     callback(null,true);
 }
-  destination: (req, file, callback) => {
-    callback(null, "./public/uploads/");
-  },
-  filename: (req, file, callback) => {
-    callback(null, file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
 
 // router.post("/", upload.single("image"), async(req,res)=>{
 //     //console.log(req.body)
