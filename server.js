@@ -50,7 +50,7 @@ app.use("/product", productRoute);
 app.use("/rate", ratesRoute);
 app.use("/payment", paymentRoute);
 app.use("/auth", authRoute);
-app.use("/users", authRoute);
+app.use("/users", usersRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
