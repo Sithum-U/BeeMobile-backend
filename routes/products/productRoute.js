@@ -47,6 +47,8 @@ router.post("/",upload.single("image"), async(req,res)=>{
         errors: "Problem with sending data"
       })
     }
+    //get image and other details
+    console.log(req.file);
     let productCode = req.body.productCode
     let productName = req.body.productName
     let description = req.body.description
@@ -64,19 +66,13 @@ router.post("/",upload.single("image"), async(req,res)=>{
       })
     }
 
-    //if upload unsupported file
-    next()
-
     const data = new Product({
-        productCode: req.body.productCode,
-        productName: req.body.productName,
-        description: req.body.description,
-        category: req.body.category,
-        price: req.body.price,
-        image: {
-            img: fstat.readFileSync("./public/uploads/", req.file.filename),
-            contentType: "image/png"
-        },
+        productCode: productCode,
+        productName: productName,
+        description: description,
+        category: category,
+        price: price,
+        image: image
     });
     const result = await data.save()
 
@@ -96,21 +92,21 @@ router.post("/",upload.single("image"), async(req,res)=>{
 })
 
 
-router.post("/", upload.single("image"), (req, res) => {
-  const newArticle = new Articles({
-    productCode: req.body.productCode,
-    productName: req.body.productName,
-    description: req.body.description,
-    category: req.body.category,
-    price: req.body.price,
-    image: req.file.originalname,
-  });
+// router.post("/", upload.single("image"), (req, res) => {
+//   const newArticle = new Articles({
+//     productCode: req.body.productCode,
+//     productName: req.body.productName,
+//     description: req.body.description,
+//     category: req.body.category,
+//     price: req.body.price,
+//     image: req.file.originalname,
+//   });
 
-  newArticle
-    .save()
-    .then(() => res.json("New Article Posted!"))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
-});
+//   newArticle
+//     .save()
+//     .then(() => res.json("New Article Posted!"))
+//     .catch((err) => res.status(400).json(`Error: ${err}`));
+// });
 
 
 //get records
