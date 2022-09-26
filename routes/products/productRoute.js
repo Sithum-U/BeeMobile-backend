@@ -2,7 +2,8 @@ const express = require("express");
 const Product = require("../../models/products/product");
 const multer = require("multer");
 const path = require("path");
-const { fstat } = require("fs");
+const fs = require("fs");
+const { nextTick } = require("process");
 // const cloudinary = require("../products/cloudinary.js");
 
 const router = express.Router();
@@ -39,16 +40,39 @@ let upload = multer({
 
 router.post("/",upload.single("image"), async(req,res)=>{
     //console.log(req.body)
+    //valid req.body or req.file not get undefined
+    if(typeof(req.file) === 'undefined' || typeof(req.body) === 'undefined'){
+      //if error
+      return res.status(400).json({
+        errors: "Problem with sending data"
+      })
+    }
+    //get image and other details
+    console.log(req.file);
+    let productCode = req.body.productCode
+    let productName = req.body.productName
+    let description = req.body.description
+    let category = req.body.category
+    let price = req.body.price
+    let image = req.file.path
+
+    //check type of image we will accept only png || jpg || jpeg
+    if(!(req.file.mimetype).includes('jpeg') && !(req.file.mimetype).includes('png')
+    && !(req.file.mimetype).includes('jpg')){
+      //first remove file
+      fs.unlinkSync(image)
+      return res.status(400).json({
+        errors: "file not support"
+      })
+    }
+
     const data = new Product({
-        productCode: req.body.productCode,
-        productName: req.body.productName,
-        description: req.body.description,
-        category: req.body.category,
-        price: req.body.price,
-        image: {
-            img: fstat.readFileSync("./public/uploads/", req.file.filename),
-            contentType: "image/png"
-        },
+        productCode: productCode,
+        productName: productName,
+        description: description,
+        category: category,
+        price: price,
+        image: image
     });
     const result = await data.save()
 
@@ -68,21 +92,21 @@ router.post("/",upload.single("image"), async(req,res)=>{
 })
 
 
-router.post("/", upload.single("image"), (req, res) => {
-  const newArticle = new Articles({
-    productCode: req.body.productCode,
-    productName: req.body.productName,
-    description: req.body.description,
-    category: req.body.category,
-    price: req.body.price,
-    image: req.file.originalname,
-  });
+// router.post("/", upload.single("image"), (req, res) => {
+//   const newArticle = new Articles({
+//     productCode: req.body.productCode,
+//     productName: req.body.productName,
+//     description: req.body.description,
+//     category: req.body.category,
+//     price: req.body.price,
+//     image: req.file.originalname,
+//   });
 
-  newArticle
-    .save()
-    .then(() => res.json("New Article Posted!"))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
-});
+//   newArticle
+//     .save()
+//     .then(() => res.json("New Article Posted!"))
+//     .catch((err) => res.status(400).json(`Error: ${err}`));
+// });
 
 
 //get records
