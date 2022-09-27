@@ -9,6 +9,7 @@ const productRoute = require("./routes/products/productRoute");
 const paymentRoute = require("./routes/payments/paymentRoute");
 const authRoute = require("./routes/users/auth");
 const usersRoute = require("./routes/users/users");
+const subscriptionsRoute = require("./routes/users/subscriptions");
 
 const uuid = require("uuid");
 const port = process.env.PORT || 8000;
@@ -44,15 +45,16 @@ app.use("/product", productRoute);
 app.use("/payment", paymentRoute);
 app.use("/auth", authRoute);
 app.use("/users", usersRoute);
+app.use("/subscriptions", subscriptionsRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMesaage = err.message || "Something went wrong";
   return res.status(errorStatus).json({
-      success: false,
-      status: errorStatus,
-      message: errorMesaage,
-      stack: err.stack,
+    success: false,
+    status: errorStatus,
+    message: errorMesaage,
+    stack: err.stack,
   });
 });
 
