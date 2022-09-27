@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
+
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 // const sequelize = require("sequelize");
@@ -10,6 +11,7 @@ const paymentRoute = require("./routes/payments/paymentRoute");
 const authRoute = require("./routes/users/auth");
 const usersRoute = require("./routes/users/users");
 const subscriptionsRoute = require("./routes/users/subscriptions");
+const ratesRoute = require("./routes/ratings/rateRoute");
 
 const uuid = require("uuid");
 const port = process.env.PORT || 8000;
@@ -32,6 +34,10 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.get("/ge", (req, res) => {
+  res.send("SA Assignment");
+});
+
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -42,6 +48,7 @@ mongoose
   });
 
 app.use("/product", productRoute);
+app.use("/rate", ratesRoute);
 app.use("/payment", paymentRoute);
 app.use("/auth", authRoute);
 app.use("/users", usersRoute);
