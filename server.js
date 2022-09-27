@@ -10,6 +10,7 @@ const productRoute = require("./routes/products/productRoute");
 const paymentRoute = require("./routes/payments/paymentRoute");
 const authRoute = require("./routes/users/auth");
 const usersRoute = require("./routes/users/users");
+const subscriptionsRoute = require("./routes/users/subscriptions");
 const ratesRoute = require("./routes/ratings/rateRoute");
 
 const uuid = require("uuid");
@@ -51,6 +52,7 @@ app.use("/rate", ratesRoute);
 app.use("/payment", paymentRoute);
 app.use("/auth", authRoute);
 app.use("/users", usersRoute);
+app.use("/subscriptions", subscriptionsRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

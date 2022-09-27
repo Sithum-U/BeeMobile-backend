@@ -11,7 +11,7 @@ router.post("/:userId", verifyUser, createSubscription);
 router.put("/:id", verifyUser, updateSubscription);
 
 //DELETE
-router.delete("/:id", verifyUser, deleteSubscription);
+router.delete("/:id/:userId", verifyUser, deleteSubscription);
 
 //GET
 router.get("/:id", verifyUser, getSubscription);

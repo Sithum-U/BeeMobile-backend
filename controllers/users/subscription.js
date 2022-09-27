@@ -3,7 +3,6 @@ const User = require("../../models/users/User");
 const { createError } = require("../../utils/error");
 
 const createSubscription = async (req, res, next) => {
-
     const userId = req.params.userId;
     const newSubscription = new Subscription(req.body);
 
@@ -36,10 +35,17 @@ const updateSubscription = async (req, res, next) => {
 }
 
 const deleteSubscription = async (req, res, next) => {
+    const userId = req.params.userId;
+
     try {
-        await Subscription.findByIdAndDelete(
-            req.params.id
-        );
+        await Subscription.findByIdAndDelete(req.params.id);
+        try {
+            await User.findByIdAndUpdate(userId, {
+                $pull: { subscriptions: req.params.id }
+            });
+        } catch (err) {
+            next(err)
+        }
         res.status(200).json("Subscription has been deleted");
     } catch (err) {
         next(err);
