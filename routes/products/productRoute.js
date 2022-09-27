@@ -37,16 +37,15 @@ let upload = multer({
     fileFilter: fileFilter
 });
 
-
-router.post("/",upload.single("image"), async(req,res)=>{
+ router.post("/",async(req,res)=>{
     //console.log(req.body)
     //valid req.body or req.file not get undefined
-    if(typeof(req.file) === 'undefined' || typeof(req.body) === 'undefined'){
-      //if error
-      return res.status(400).json({
-        errors: "Problem with sending data"
-      })
-    }
+    // if(typeof(req.file) === 'undefined' || typeof(req.body) === 'undefined'){
+    //   //if error
+    //   return res.status(400).json({
+    //     errors: "Problem with sending data"
+    //   })
+    // }
     //get image and other details
     console.log(req.file);
     let productCode = req.body.productCode
@@ -57,14 +56,14 @@ router.post("/",upload.single("image"), async(req,res)=>{
     let image = req.file.path
 
     //check type of image we will accept only png || jpg || jpeg
-    if(!(req.file.mimetype).includes('jpeg') && !(req.file.mimetype).includes('png')
-    && !(req.file.mimetype).includes('jpg')){
-      //first remove file
-      fs.unlinkSync(image)
-      return res.status(400).json({
-        errors: "file not support"
-      })
-    }
+    // if(!(req.file.mimetype).includes('jpeg') && !(req.file.mimetype).includes('png')
+    // && !(req.file.mimetype).includes('jpg')){
+    //   //first remove file
+    //   fs.unlinkSync(image)
+    //   return res.status(400).json({
+    //     errors: "file not support"
+    //   })
+    // }
 
     const data = new Product({
         productCode: productCode,
