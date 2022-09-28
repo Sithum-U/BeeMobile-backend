@@ -47,6 +47,10 @@ mongoose
     console.log("Database Connected Successfully..");
   });
 
+app.get("/", (req, res) => {
+  res.json({ message: "API running..." });
+});
+
 app.use("/product", productRoute);
 app.use("/rate", ratesRoute);
 app.use("/payment", paymentRoute);
