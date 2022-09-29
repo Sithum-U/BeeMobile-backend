@@ -183,7 +183,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //update record
-router.put("/:id", async (req, res) => {
+router.put("/:id",upload.single("image"),async(req,res)=>{
   Product.findByIdAndUpdate(req.params.id)
     .then((product) => {
       req.body.productCode
