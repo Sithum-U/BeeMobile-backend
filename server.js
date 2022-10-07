@@ -10,8 +10,12 @@ const productRoute = require("./routes/products/productRoute");
 const paymentRoute = require("./routes/payments/paymentRoute");
 const authRoute = require("./routes/users/auth");
 const usersRoute = require("./routes/users/users");
-const subscriptionsRoute = require("./routes/users/subscriptions");
+
 const ratesRoute = require("./routes/ratings/rateRoute");
+
+const advertisementRoute = require("./routes/advertisement/advertisementRoute");
+
+const subscriptionsRoute = require("./routes/users/subscriptions");
 
 const uuid = require("uuid");
 const port = process.env.PORT || 8000;
@@ -56,6 +60,7 @@ app.use("/rate", ratesRoute);
 app.use("/payment", paymentRoute);
 app.use("/auth", authRoute);
 app.use("/users", usersRoute);
+app.use("/advertise", advertisementRoute);
 app.use("/subscriptions", subscriptionsRoute);
 
 app.use((err, req, res, next) => {
