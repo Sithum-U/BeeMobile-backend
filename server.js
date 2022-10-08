@@ -12,6 +12,7 @@ const authRoute = require("./routes/users/auth");
 const usersRoute = require("./routes/users/users");
 const subscriptionsRoute = require("./routes/users/subscriptions");
 const ratesRoute = require("./routes/ratings/rateRoute");
+const cartItemRoute = require("./routes/cartItems/cartItemRoute");
 
 const uuid = require("uuid");
 const port = process.env.PORT || 8000;
@@ -57,6 +58,7 @@ app.use("/payment", paymentRoute);
 app.use("/auth", authRoute);
 app.use("/users", usersRoute);
 app.use("/subscriptions", subscriptionsRoute);
+app.use("/cartItem", cartItemRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

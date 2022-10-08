@@ -9,15 +9,17 @@ const cloudinary = require("../../utils/cloudinary");
 const router = express.Router();
 
 router.post("/", upload.single("image"), async (req, res) => {
-  const imgresult = await cloudinary.uploader.upload(req.file.path);
+  // const imgresult = await cloudinary.uploader.upload(req.file.path);
+  let productId = req.body._id;
   let productCode = req.body.productCode;
   let productName = req.body.productName;
   let description = req.body.description;
   let category = req.body.category;
   let price = req.body.price;
-  let image = imgresult.secure_url;
+  let image = req.body.image;
 
   const data = new CartItem({
+    productId: productId,
     productCode: productCode,
     productName: productName,
     description: description,
