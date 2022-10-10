@@ -70,6 +70,35 @@ const router = express.Router();
 //         })
 //     }
 // })
+
+ router.post("/",upload.single("image"),async(req,res)=>{
+    const imgresult = await cloudinary.uploader.upload(req.file.path);
+    let productCode = req.body.productCode
+    let productName = req.body.productName
+    let description = req.body.description
+    let category = req.body.category
+    let price = req.body.price
+    let image = imgresult.secure_url
+
+    //check type of image we will accept only png || jpg || jpeg
+    // if(!(req.file.mimetype).includes('jpeg') && !(req.file.mimetype).includes('png')
+    // && !(req.file.mimetype).includes('jpg')){
+    //   //first remove file
+    //   fs.unlinkSync(image)
+    //   return res.status(400).json({
+    //     errors: "file not support"
+    //   })
+    // }
+
+  
+    const data = new Product({
+        productCode: productCode,
+        productName: productName,
+        description: description,
+        category: category,
+        price: price,
+        image: image
+
 router.post("/", upload.single("image"), async (req, res) => {
   //console.log(req.body)
   //valid req.body or req.file not get undefined
