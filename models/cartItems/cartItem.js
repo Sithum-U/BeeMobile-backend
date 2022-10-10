@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 // const validator = require("validator");
 
-const productSchema = new mongoose.Schema({
+const cartItemSchema = new mongoose.Schema({
   productCode: {
     type: String,
     required: true,
@@ -31,5 +31,5 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-const Product = mongoose.model("Product", productSchema);
-module.exports = Product;
+const CartItem = mongoose.model("CartItem", cartItemSchema);
+module.exports = CartItem;
