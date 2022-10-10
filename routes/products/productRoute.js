@@ -73,16 +73,6 @@ const router = express.Router();
 //     }
 // })
  router.post("/",upload.single("image"),async(req,res)=>{
-    //console.log(req.body)
-    //valid req.body or req.file not get undefined
-    // if(typeof(req.file) === 'undefined' || typeof(req.body) === 'undefined'){
-    //   //if error
-    //   return res.status(400).json({
-    //     errors: "Problem with sending data"
-    //   })
-    // }
-    //get image and other details
-    //console.log(req.file);
     const imgresult = await cloudinary.uploader.upload(req.file.path);
     let productCode = req.body.productCode
     let productName = req.body.productName
@@ -101,6 +91,7 @@ const router = express.Router();
     //   })
     // }
 
+  
     const data = new Product({
         productCode: productCode,
         productName: productName,
