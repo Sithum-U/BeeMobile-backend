@@ -13,6 +13,7 @@ const paymentRoute = require("./routes/payments/paymentRoute");
 const usersRoute = require("./routes/users/users");
 
 const ratesRoute = require("./routes/ratings/rateRoute");
+const cartItemRoute = require("./routes/cartItems/cartItemRoute");
 
 const advertisementRoute = require("./routes/advertisement/advertisementRoute");
 
@@ -63,6 +64,7 @@ app.use("/payment", paymentRoute);
 app.use("/users", usersRoute);
 app.use("/advertise", advertisementRoute);
 app.use("/subscriptions", subscriptionsRoute);
+app.use("/cartItem", cartItemRoute);
 
 app.use(notFound);
 app.use(errorHandler);
