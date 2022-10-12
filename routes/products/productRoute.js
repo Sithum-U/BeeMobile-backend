@@ -8,19 +8,6 @@ const cloudinary = require("../../utils/cloudinary");
 
 const router = express.Router();
 
-//set storage => file name and destination
-// const storage = multer.diskStorage({
-//     destination: (req,res,callback) => {
-//         callback(null, "./public/uploads/");
-//     },
-//     filename: function(req, file, callback) {
-//         console.log(file);
-//         //generate unique name for each image
-//         // callback(null, file.originalname);
-//         callback(null, 'congar' + '-' + Date.now() + path.extname(file.originalname))
-//     } 
-// })
-
 //file filter and accept any file 
 // const fileFilter = (req, file, callback) => {
 //     callback(null,true);
