@@ -8,6 +8,19 @@ const cloudinary = require("../../utils/cloudinary");
 
 const router = express.Router();
 
+//set storage => file name and destination
+// const storage = multer.diskStorage({
+//     destination: (req,res,callback) => {
+//         callback(null, "./public/uploads/");
+//     },
+//     filename: function(req, file, callback) {
+//         console.log(file);
+//         //generate unique name for each image
+//         // callback(null, file.originalname);
+//         callback(null, 'congar' + '-' + Date.now() + path.extname(file.originalname))
+//     } 
+// })
+
 //file filter and accept any file 
 // const fileFilter = (req, file, callback) => {
 //     callback(null,true);
@@ -18,12 +31,10 @@ const router = express.Router();
 //     const data = new Product(req.body)
 //     const result = await data.save()
 
-
 // let upload = multer({
 //     storage: storage,
 //     fileFilter: fileFilter
 // });
-
 
 // router.post("/",async(req,res)=>{
 //     //console.log(req.body)
@@ -34,7 +45,7 @@ const router = express.Router();
 //     let category = req.body.category
 //     let price = req.body.price
 //     let image = req.file.path
-    
+
 //     const data = new Product({
 //       productCode: productCode,
 //       productName: productName,
@@ -68,42 +79,39 @@ const router = express.Router();
     let price = req.body.price
     let image = imgresult.secure_url
 
-    //check type of image we will accept only png || jpg || jpeg
-    // if(!(req.file.mimetype).includes('jpeg') && !(req.file.mimetype).includes('png')
-    // && !(req.file.mimetype).includes('jpg')){
-    //   //first remove file
-    //   fs.unlinkSync(image)
-    //   return res.status(400).json({
-    //     errors: "file not support"
-    //   })
-    // }
+  //check type of image we will accept only png || jpg || jpeg
+  // if(!(req.file.mimetype).includes('jpeg') && !(req.file.mimetype).includes('png')
+  // && !(req.file.mimetype).includes('jpg')){
+  //   //first remove file
+  //   fs.unlinkSync(image)
+  //   return res.status(400).json({
+  //     errors: "file not support"
+  //   })
+  // }
 
-  
-    const data = new Product({
-        productCode: productCode,
-        productName: productName,
-        description: description,
-        category: category,
-        price: price,
-        image: image
+  const data = new Product({
+    productCode: productCode,
+    productName: productName,
+    description: description,
+    category: category,
+    price: price,
+    image: image,
+  });
+  const result = await data.save();
+
+  if (!result) {
+    res.json({
+      status: "FAILED",
+      message: "Product is not Added!",
     });
-    const result = await data.save()
-
-    if(!result){
-        res.json({
-            status: "FAILED",
-            message: "Product is not Added!"
-        })
-    }
-    else{
-        res.json({
-            status: "SUCCESS",
-            message: "Product Added Successfully....",
-            data:result
-        })
-    }
-})
-
+  } else {
+    res.json({
+      status: "SUCCESS",
+      message: "Product Added Successfully....",
+      data: result,
+    });
+  }
+});
 
 // router.post("/", upload.single("image"), (req, res) => {
 //   const newArticle = new Articles({
@@ -120,7 +128,6 @@ const router = express.Router();
 //     .then(() => res.json("New Article Posted!"))
 //     .catch((err) => res.status(400).json(`Error: ${err}`));
 // });
-
 
 //get records
 router.get("/", async (req, res) => {
@@ -181,6 +188,9 @@ router.put("/:id",upload.single("image"),async(req,res)=>{
         req.body.category ? (product.category = req.body.category) : null,
         req.body.price ? (product.price = req.body.price) : null;
       req.body.image ? (product.image = req.body.image) : null;
+      req.body.countInStock
+        ? (product.countInStock = req.body.countInStock)
+        : null;
       product
         .save()
         .then((product) =>
@@ -222,4 +232,3 @@ router.delete("/:id", async (req, res) => {
   }
 });
 module.exports = router;
-

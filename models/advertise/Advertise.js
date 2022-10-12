@@ -1,35 +1,27 @@
 const mongoose = require("mongoose");
 // const validator = require("validator");
 
-const productSchema = new mongoose.Schema({
-  productCode: {
-    type: String,
-    required: true,
-  },
-  productName: {
+const advertiseSchema = new mongoose.Schema({
+  title: {
     type: String,
     required: true,
   },
   description: {
+    type: String,
+    required: true,
+  },
+  date: {
     // type: Sequelize.TEXT,
     type: String,
   },
-  category: {
+  email: {
     type: String,
     required: true,
   },
-  price: {
-    type: Number,
-    required: true,
-  },
-  image: {
+  photo: {
     type: String,
     // required:true
   },
-  countInStock: {
-    type: Number,
-  },
 });
-
-const Product = mongoose.model("Product", productSchema);
-module.exports = Product;
+const advert = mongoose.model("Advertise", advertiseSchema);
+module.exports = advert;
