@@ -8,76 +8,24 @@ const cloudinary = require("../../utils/cloudinary");
 
 const router = express.Router();
 
-//set storage => file name and destination
-// const storage = multer.diskStorage({
-//     destination: (req,res,callback) => {
-//         callback(null, "./public/uploads/");
-//     },
-//     filename: function(req, file, callback) {
-//         console.log(file);
-//         //generate unique name for each image
-//         // callback(null, file.originalname);
-//         callback(null, 'congar' + '-' + Date.now() + path.extname(file.originalname))
-//     } 
-// })
-
-//file filter and accept any file 
-// const fileFilter = (req, file, callback) => {
-//     callback(null,true);
-// }
-
-// router.post("/", upload.single("image"), async(req,res)=>{
-//     //console.log(req.body)
-//     const data = new Product(req.body)
-//     const result = await data.save()
-
-// let upload = multer({
-//     storage: storage,
-//     fileFilter: fileFilter
-// });
-
-// router.post("/",async(req,res)=>{
-//     //console.log(req.body)
-//     console.log(req.file);
-//     let productCode = req.body.productCode
-//     let productName = req.body.productName
-//     let description = req.body.description
-//     let category = req.body.category
-//     let price = req.body.price
-//     let image = req.file.path
-
-//     const data = new Product({
-//       productCode: productCode,
-//       productName: productName,
-//       description: description,
-//       category: category,
-//       price: price,
-//       image: image
-//   });
-//     const result = await data.save()
-
-//     if(!result){
-//         res.json({
-//             status: "FAILED",
-//             message: "Product is not Added!"
-//         })
-//     }
-//     else{
-//         res.json({
-//             status: "SUCCESS",
-//             message: "Product Added Successfully....",
-//             data:result
-//         })
-//     }
-// })
- router.post("/",upload.single("image"),async(req,res)=>{
-    const imgresult = await cloudinary.uploader.upload(req.file.path);
-    let productCode = req.body.productCode
-    let productName = req.body.productName
-    let description = req.body.description
-    let category = req.body.category
-    let price = req.body.price
-    let image = imgresult.secure_url
+router.post("/", upload.single("image"), async (req, res) => {
+  //console.log(req.body)
+  //valid req.body or req.file not get undefined
+  // if(typeof(req.file) === 'undefined' || typeof(req.body) === 'undefined'){
+  //   //if error
+  //   return res.status(400).json({
+  //     errors: "Problem with sending data"
+  //   })
+  // }
+  //get image and other details
+  //console.log(req.file);
+  const imgresult = await cloudinary.uploader.upload(req.file.path);
+  let productCode = req.body.productCode;
+  let productName = req.body.productName;
+  let description = req.body.description;
+  let category = req.body.category;
+  let price = req.body.price;
+  let image = imgresult.secure_url;
 
   //check type of image we will accept only png || jpg || jpeg
   // if(!(req.file.mimetype).includes('jpeg') && !(req.file.mimetype).includes('png')
@@ -112,22 +60,6 @@ const router = express.Router();
     });
   }
 });
-
-// router.post("/", upload.single("image"), (req, res) => {
-//   const newArticle = new Articles({
-//     productCode: req.body.productCode,
-//     productName: req.body.productName,
-//     description: req.body.description,
-//     category: req.body.category,
-//     price: req.body.price,
-//     image: req.file.originalname,
-//   });
-
-//   newArticle
-//     .save()
-//     .then(() => res.json("New Article Posted!"))
-//     .catch((err) => res.status(400).json(`Error: ${err}`));
-// });
 
 //get records
 router.get("/", async (req, res) => {
