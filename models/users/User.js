@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-const userSchema = new mongoose.Schema(
+const userSchema = mongoose.Schema(
   {
-    username: {
+    name: {
       type: String,
       required: true,
-      unique: true,
     },
     email: {
       type: String,
@@ -17,12 +16,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    subscriptions: {
-      type: [String],
-    },
     isAdmin: {
-      type: Boolean,
-      default: false,
+      type: String,
+      required: true,
     },
     pic: {
       type: String,
@@ -31,7 +27,9 @@ const userSchema = new mongoose.Schema(
         "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
@@ -48,4 +46,34 @@ userSchema.pre("save", async function (next) {
 });
 
 const User = mongoose.model("User", userSchema);
+
 module.exports = User;
+
+// const mongoose = require("mongoose")
+
+// const userSchema = new mongoose.Schema({
+//     username: {
+//         type: String,
+//         required: true,
+//         unique: true
+//     },
+//     email: {
+//         type: String,
+//         required: true,
+//         unique: true
+//     },
+//     password: {
+//         type: String,
+//         required: true
+//     },
+//     subscriptions: {
+//         type: [String]
+//     },
+//     isAdmin: {
+//         type: Boolean,
+//         default: false
+//     },
+// }, { timestamps: true });
+
+// const User = mongoose.model("User", userSchema);
+// module.exports = User;
