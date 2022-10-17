@@ -145,4 +145,14 @@ router.delete("/:id", async (req, res) => {
     console.log(e);
   }
 });
+
+router.delete("/", (req, res) => {
+  const result = CartItem.deleteMany({}, function (err) {
+    if (err) {
+      res.status(500).send({ error: "Could not clead database..." });
+    } else {
+      res.status(200).send({ message: "All info was deleted succesfully..." });
+    }
+  });
+});
 module.exports = router;
