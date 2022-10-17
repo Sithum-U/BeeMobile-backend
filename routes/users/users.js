@@ -1,8 +1,21 @@
 const express = require("express");
-const { updateUser, deleteUser, getUser, getUsers } = require("../../controllers/users/user");
-const { verifyToken, verifyUser, verifyAdmin } = require("../../utils/verifyToken");
+const {
+  registerUser,
+  authUser,
+  updateUserProfile,
+  deleteUser,
+  getAllUsers,
+} = require("../../controllers/users/user");
+const { protect } = require("../../middlewares/authMiddleware");
+// const { verifyToken, verifyUser, verifyAdmin } = require("../../utils/verifyToken");
 
 const router = express.Router();
+
+router.post("/", registerUser);
+router.get("/", getAllUsers);
+router.post("/login", authUser);
+router.post("/profile", protect, updateUserProfile);
+router.delete("/:id", deleteUser);
 
 // router.get("/checkauthentication", verifyToken, (req, res, next) => {
 //     res.send("Hello user, you are logged in");
@@ -17,15 +30,15 @@ const router = express.Router();
 // })
 
 //UPDATE
-router.put("/:id", verifyUser, updateUser);
+// router.put("/:id", verifyUser, updateUser);
 
-//DELETE
-router.delete("/:id", verifyUser, deleteUser);
+// //DELETE
+// router.delete("/:id", verifyUser, deleteUser);
 
-//GET
-router.get("/:id", verifyUser, getUser);
+// //GET
+// router.get("/:id", verifyUser, getUser);
 
-//GETALL
-router.get("/", verifyAdmin, getUsers);
+// //GETALL
+// router.get("/", verifyAdmin, getUsers);
 
 module.exports = router;
