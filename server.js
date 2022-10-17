@@ -16,7 +16,6 @@ const usersRoute = require("./routes/users/users");
 
 const ratesRoute = require("./routes/ratings/rateRoute");
 const courseRoute = require("./routes/payments/courseRoute");
-const cartItemRoute = require("./routes/cartItems/cartItemRoute");
 
 const advertisementRoute = require("./routes/advertisement/advertisementRoute");
 
