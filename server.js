@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
+const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -10,9 +11,15 @@ const productRoute = require("./routes/products/productRoute");
 const paymentRoute = require("./routes/payments/paymentRoute");
 const cartItemRoute = require("./routes/cartItems/cartItemRoute");
 const authRoute = require("./routes/users/auth");
+// const authRoute = require("./routes/users/auth");
 const usersRoute = require("./routes/users/users");
-const subscriptionsRoute = require("./routes/users/subscriptions");
+
 const ratesRoute = require("./routes/ratings/rateRoute");
+const cartItemRoute = require("./routes/cartItems/cartItemRoute");
+
+const advertisementRoute = require("./routes/advertisement/advertisementRoute");
+
+const subscriptionsRoute = require("./routes/users/subscriptions");
 
 const uuid = require("uuid");
 const port = process.env.PORT || 8000;
@@ -56,9 +63,14 @@ app.use("/product", productRoute);
 app.use("/rate", ratesRoute);
 app.use("/cartItem", cartItemRoute);
 app.use("/payment", paymentRoute);
-app.use("/auth", authRoute);
+// app.use("/auth", authRoute);
 app.use("/users", usersRoute);
+app.use("/advertise", advertisementRoute);
 app.use("/subscriptions", subscriptionsRoute);
+app.use("/cartItem", cartItemRoute);
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

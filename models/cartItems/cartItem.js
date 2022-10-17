@@ -32,6 +32,15 @@ const cartItemSchema = new mongoose.Schema({
   countInStock: {
     type: Number,
   },
+  qty: {
+    type: Number,
+    default: 1,
+  },
+  cartId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+    ref: "Product",
+  },
 });
 
 const CartItem = mongoose.model("CartItem", cartItemSchema);
