@@ -66,4 +66,14 @@ router.route("/deletePayment/:id").delete(async (req, res) => {
   }
 });
 
+router.delete("/", (req, res) => {
+  const result = Payment.deleteMany({}, function (err) {
+    if (err) {
+      res.status(500).send({ error: "Could not clead database..." });
+    } else {
+      res.status(200).send({ message: "All info was deleted succesfully..." });
+    }
+  });
+});
+
 module.exports = router;
