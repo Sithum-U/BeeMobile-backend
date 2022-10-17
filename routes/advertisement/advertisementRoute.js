@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
   },
 });
 //filter photo type
+//advertisment routes created
 const fileFilter = (req, file, cb) => {
   const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
   if (allowedFileTypes.includes(file.mimetype)) {
