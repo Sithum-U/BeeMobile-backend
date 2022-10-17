@@ -10,24 +10,22 @@ const router = express.Router();
 
 router.post("/", upload.single("image"), async (req, res) => {
   // const imgresult = await cloudinary.uploader.upload(req.file.path);
-  let cartId = req.body._id;
+  let productId = req.body._id;
   let productCode = req.body.productCode;
   let productName = req.body.productName;
   let description = req.body.description;
   let category = req.body.category;
   let price = req.body.price;
   let image = req.body.image;
-  let qty = req.body.qty;
 
   const data = new CartItem({
-    cartId: cartId,
+    productId: productId,
     productCode: productCode,
     productName: productName,
     description: description,
     category: category,
     price: price,
     image: image,
-    qty: qty,
   });
   const result = await data.save();
 
@@ -107,8 +105,6 @@ router.put("/:id", async (req, res) => {
       req.body.countInStock
         ? (cartItem.countInStock = req.body.countInStock)
         : null;
-      req.body.qty ? (cartItem.qty = req.body.qty) : null;
-      req.body.cartId ? (cartItem.cartId = req.body.cartId) : null;
       cartItem
         .save()
         .then((cartItem) =>
@@ -148,5 +144,15 @@ router.delete("/:id", async (req, res) => {
   } catch (e) {
     console.log(e);
   }
+});
+
+router.delete("/", (req, res) => {
+  const result = CartItem.deleteMany({}, function (err) {
+    if (err) {
+      res.status(500).send({ error: "Could not clead database..." });
+    } else {
+      res.status(200).send({ message: "All info was deleted succesfully..." });
+    }
+  });
 });
 module.exports = router;

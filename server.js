@@ -9,6 +9,8 @@ const cookieParser = require("cookie-parser");
 // const sequelize = require("sequelize");
 const productRoute = require("./routes/products/productRoute");
 const paymentRoute = require("./routes/payments/paymentRoute");
+const cartItemRoute = require("./routes/cartItems/cartItemRoute");
+const authRoute = require("./routes/users/auth");
 // const authRoute = require("./routes/users/auth");
 const usersRoute = require("./routes/users/users");
 
@@ -59,6 +61,7 @@ app.get("/", (req, res) => {
 
 app.use("/product", productRoute);
 app.use("/rate", ratesRoute);
+app.use("/cartItem", cartItemRoute);
 app.use("/payment", paymentRoute);
 // app.use("/auth", authRoute);
 app.use("/users", usersRoute);

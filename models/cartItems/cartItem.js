@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 // const validator = require("validator");
 
 const cartItemSchema = new mongoose.Schema({
+  productId: {
+    type: String,
+  },
   productCode: {
     type: String,
     required: true,
@@ -24,7 +27,7 @@ const cartItemSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    // required:true
+    required: true,
   },
   countInStock: {
     type: Number,
