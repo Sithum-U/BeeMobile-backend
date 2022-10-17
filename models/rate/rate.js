@@ -5,15 +5,15 @@ const mongoose = require("mongoose");
 const rateSchema = new mongoose.Schema({
   description: {
     type: String,
-    required: true,
+    // required: true,
   },
   name: {
     type: String,
-    required: true,
+    // required: true,
   },
   profession: {
     type: String,
-    required: true,
+    // required: true,
   },
 });
 
