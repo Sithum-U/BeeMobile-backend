@@ -23,7 +23,7 @@ router.get("/:id", (req, res) => {
 //@desc   Add payment to db
 //@route  POST /api/payments
 //@access Public
-router.post("/add", (req, res) => {
+router.post("/", (req, res) => {
   const newPayment = new Payment(req.body);
   newPayment.save().then((payment) => res.json(payment));
 });
@@ -31,7 +31,7 @@ router.post("/add", (req, res) => {
 //@desc   Update payment from db
 //@route  POST /api/payments/update/:id
 //@access Public
-router.put("/updatePayment/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   Payment.findByIdAndUpdate(req.params.id)
     .then((payment) => {
       console.log(payment);
