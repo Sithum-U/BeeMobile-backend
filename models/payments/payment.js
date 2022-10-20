@@ -5,11 +5,11 @@ const mongoose = require("mongoose");
 const paymentSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true,
+    // required: true,
   },
   cardInformation: {
     type: Number,
-    required: true,
+    // required: true,
   },
   expDate: {
     type: String,
@@ -18,19 +18,19 @@ const paymentSchema = new mongoose.Schema({
   cvc: {
     // type: Sequelize.TEXT,
     type: Number,
-    required: true,
+    // required: true,
   },
   nameOnCard: {
     type: String,
-    required: true,
+    // required: true,
   },
   region: {
     type: String,
-    required: true,
+    // required: true,
   },
   zip: {
     type: Number,
-    required: true,
+    // required: true,
   },
 });
 

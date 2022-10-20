@@ -23,7 +23,7 @@ router.get("/:id", (req, res) => {
 //@desc   Add payment to db
 //@route  POST /api/payments
 //@access Public
-router.post("/add", (req, res) => {
+router.post("/", (req, res) => {
   const newPayment = new Payment(req.body);
   newPayment.save().then((payment) => res.json(payment));
 });
@@ -31,7 +31,7 @@ router.post("/add", (req, res) => {
 //@desc   Update payment from db
 //@route  POST /api/payments/update/:id
 //@access Public
-router.put("/updatePayment/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   Payment.findByIdAndUpdate(req.params.id)
     .then((payment) => {
       console.log(payment);
@@ -64,6 +64,16 @@ router.route("/deletePayment/:id").delete(async (req, res) => {
   } catch (err) {
     res.status(400).send({ data: err });
   }
+});
+
+router.delete("/", (req, res) => {
+  const result = Payment.deleteMany({}, function (err) {
+    if (err) {
+      res.status(500).send({ error: "Could not clead database..." });
+    } else {
+      res.status(200).send({ message: "All info was deleted succesfully..." });
+    }
+  });
 });
 
 module.exports = router;
