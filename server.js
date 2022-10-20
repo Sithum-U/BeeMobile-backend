@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
-const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -70,9 +69,6 @@ app.use("/advertise", advertisementRoute);
 app.use("/subscriptions", subscriptionsRoute);
 app.use("/course", courseRoute);
 app.use("/cartItem", cartItemRoute);
-
-app.use(notFound);
-app.use(errorHandler);
 
 app.use(notFound);
 app.use(errorHandler);
